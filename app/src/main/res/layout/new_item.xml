@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_margin="16dp"
+               android:orientation="vertical">
+
+<TextView
+        android:id="@+id/addNewLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add_new"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_dark"
+        android:textSize="30sp" />
+
+<EditText
+        android:id="@+id/nameTextbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="name"
+
+        android:inputType="textPersonName" />
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/assetLiabilityRadioGroup">
+
+        <RadioButton
+                android:id="@+id/assetRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="asset" />
+
+        <RadioButton
+                android:id="@+id/liabilityRadio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="liability" />
+    </RadioGroup>
+
+</LinearLayout>
+
+<EditText
+        android:id="@+id/amountTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="amount"
+        android:inputType="numberDecimal" />
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+    <Button
+            android:id="@+id/addNewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onAddingNew"
+            android:text="add" />
+
+    <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onCancelingAddNew"
+            android:text="cancel" />
+</LinearLayout>
+
+</LinearLayout>

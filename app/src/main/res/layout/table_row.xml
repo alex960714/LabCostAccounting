@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:background="#dfdfdf">
+
+
+    <CheckBox
+            android:id="@+id/rowCheckBox"
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="" />
+
+    <TextView
+            android:id="@+id/nameValueTextView"
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:padding = "8dp"
+            android:maxLines="1"
+            android:textColor="@android:color/background_dark"
+            android:text="Testing Cost" />
+
+    <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:maxLines="1"
+            android:textColor="@android:color/background_dark"
+            android:text="status"/>
+
+    <TextView
+            android:id="@+id/amountValueTextView"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:padding = "8dp"
+            android:maxLines="1"
+            android:textColor="@android:color/background_dark"
+            android:text="0" />
+</LinearLayout>
