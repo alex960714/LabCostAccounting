@@ -1,88 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:layout_margin="16dp"
-               android:orientation="vertical">
-
-<TextView
-        android:id="@+id/addNewLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="add_new"
-        android:textAlignment="center"
-        android:textColor="@android:color/background_dark"
-        android:textSize="30sp" />
-
-<EditText
-        android:id="@+id/nameTextbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="name"
-
-        android:inputType="textPersonName" />
-
-<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-    <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/assetLiabilityRadioGroup">
-
-        <RadioButton
-                android:id="@+id/assetRadio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="asset" />
-
-        <RadioButton
-                android:id="@+id/liabilityRadio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="liability" />
-    </RadioGroup>
-
-</LinearLayout>
-
-<EditText
-        android:id="@+id/amountTextBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="amount"
-        android:inputType="numberDecimal" />
-
-<LinearLayout
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+        tools:context=".AddNewActivity">
+
+    <TextView
+            android:id="@+id/mainTextView"
+            android:text="Enter the fields:"
+            android:textSize="25dp"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp"/>
+
+
+    <EditText
+            android:id="@+id/nameEditText"
+            android:hint="Name"
+            android:inputType="text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/mainTextView"
+            android:layout_alignStart="@+id/mainTextView" />
+
+
+    <EditText
+            android:id="@+id/amountEditText"
+            android:hint="Amount"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/nameEditText"
+            android:layout_alignStart="@+id/nameEditText" />
+
+    <RadioButton
+            android:id="@+id/costRadioButton"
+            android:text="Costs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/amountEditText"
+            android:layout_alignStart="@+id/amountEditText"/>
+
+    <RadioButton
+            android:id="@+id/incomeRadioButton"
+            android:text="Income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/costRadioButton"
+            android:layout_alignStart="@+id/costRadioButton" />
 
     <Button
-            android:id="@+id/addNewButton"
-            android:layout_width="match_parent"
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onAddingNew"
-            android:text="add" />
+            android:text="Save"
+            android:onClick="saveClick"
+            android:layout_marginTop="53dp"
+            android:layout_below="@+id/incomeRadioButton"
+            android:layout_alignStart="@+id/incomeRadioButton" />
 
     <Button
             android:id="@+id/cancelButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onCancelingAddNew"
-            android:text="cancel" />
-</LinearLayout>
+            android:text="Cancel"
+            android:onClick="cancelClick"
+            android:layout_below="@+id/saveButton"
+            android:layout_alignStart="@+id/saveButton"
+            android:layout_marginTop="15dp" />
 
-</LinearLayout>
+    <RadioGroup
+            android:id="@+id/RGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    />
+
+</RelativeLayout>
