@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
-    ArrayList loads = new ArrayList();
-    int countloads = 0;
-    boolean flagactivity = false;
+    private ArrayList loads = new ArrayList();
+    /*int countloads = 0;
+    boolean flagactivity = false;*/
     private int _ActiveElement;
     private Button addBtn;
     private Button delBtn;
@@ -26,11 +26,7 @@ public class MainActivity extends Activity {
         delClick();
 
         DBOperations.Initialize(this);
-        DrawList();
-    }
-
-    public void UpdateElements() {
-        DrawList();
+        UpdateElements();
     }
 
     public void addClick() {
@@ -49,35 +45,27 @@ public class MainActivity extends Activity {
         delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DBOperations.Get().DeleteElement(_ActiveElement);
+                DBOperations.getDB().deleteElement(_ActiveElement);
                 _ActiveElement = 0;
             }
         });
     }
-/*    public void savebase(View view) {
-        Information.getInformation().setList(loads);
-    }
-
-    public void loadbase(View view) {
-        loads= Information.getInformation().getList();
-        UpdateElements();
-    }*/
 
 
-    private void DrawList() {
-        ListView LV = (ListView) findViewById(R.id.table);
+    public void UpdateElements() {
+        ListView table = (ListView) findViewById(R.id.table);
 
-        ArrayList loads = Information.getInformation().getList();
+        loads = Information.getInformation().getList();
 
-        ArrayList loadsbase = DBOperations.Get().GetElements();
+        ArrayList loadsbase = DBOperations.getDB().getElements();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, loads);
-        LV.setAdapter(adapter);
+        table.setAdapter(adapter);
 
 
-        for (int i = 0; i < Information.getInformation().getCount(); i++) {
-            Record add = (Record) loadsbase.get(i);
+        for (int i = 0; i < DBOperations.getDB().getCount(); i++) {
+            DBRecord add = (DBRecord) loadsbase.get(i);
             String addInfo = add.getInformation();
-            int addSum = add.getSumm();
+            int addSum = add.getSum();
             boolean addCost = add.getCost();
             if (addCost) {
                 loads.add((String) ("Income: " + addInfo + "  " + addSum ));
@@ -86,26 +74,17 @@ public class MainActivity extends Activity {
             }
             System.out.println("ii = " + i);
         }
+        Information.getInformation().setList(loads);
 
 
-        LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        table.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
                                     long id) {
-                Toast.makeText(getApplicationContext(), ((TextView) itemClicked).getText(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        LV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-                _ActiveElement = pos;
-                return true;
+                /*Toast.makeText(getApplicationContext(), ((TextView) itemClicked).getText(),
+                        Toast.LENGTH_SHORT).show();*/
+                _ActiveElement = position;
             }
         });
     }
-
-
-
 }

@@ -13,9 +13,9 @@ public class DBOperations extends SQLiteOpenHelper {
 
     private MainActivity _Activity;
     private SQLiteDatabase _Database;
-    private int complements = 0;
+    private int size = 0;
 
-    public static DBOperations Get() {
+    public static DBOperations getDB() {
         return _Instance;
     }
 
@@ -29,13 +29,13 @@ public class DBOperations extends SQLiteOpenHelper {
         _Database = getWritableDatabase();
     }
 
-    public void AddElement(String name, boolean isActive, int value) {
+    public void addElement(String name, boolean isActive, int value) {
         _Database.execSQL("INSERT INTO elements VALUES (" +
                 "\"" + name + "\"," + (isActive ? "1" : "0") + "," + value +  ");");
-        complements++;
+        size++;
     }
 
-    public int GetCount() {return complements;}
+    public int getCount() {return size;}
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -54,23 +54,25 @@ public class DBOperations extends SQLiteOpenHelper {
         _Database = db;
     }
 
-    public ArrayList<Record> GetElements() {
-        ArrayList<Record> result = new ArrayList<>();
+    public ArrayList<DBRecord> getElements() {
+        ArrayList<DBRecord> result = new ArrayList<>();
         Cursor cursor = _Database.rawQuery(
                 "SELECT * FROM elements WHERE 1", new String[]{});
         cursor.moveToFirst();
         for (int i = 0; i < cursor.getCount(); i++) {
-            result.add(new Record(cursor.getString(0), cursor.getInt(1) != 0, cursor.getInt(2)));
+            result.add(new DBRecord(cursor.getString(0), cursor.getInt(1) != 0, cursor.getInt(2)));
             cursor.moveToNext();
         }
         return result;
     }
 
-    public void DeleteElement(int activeElement) {
-        Record deleteel = DBOperations.Get().GetElements().get(activeElement);
-        _Database.execSQL("DELETE FROM elements WHERE ELNAME=\"" + deleteel.getInformation()+"\";");
-        complements--;
-        _Activity.UpdateElements();
+    public void deleteElement(int activeElement) {
+        if(size > 0) {
+            DBRecord deleteEl = DBOperations.getDB().getElements().get(activeElement);
+            _Database.execSQL("DELETE FROM elements WHERE ELNAME=\"" + deleteEl.getInformation() + "\";");
+            size--;
+            _Activity.UpdateElements();
+        }
     }
 
 }

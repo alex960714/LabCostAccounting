@@ -54,9 +54,9 @@ public class AddNewActivity extends AppCompatActivity {
         if (radioBR.isChecked()) {
             Information.getInformation().setIsCost();
         } else Information.getInformation().setIsIncome();
-        DBOperations.Get().AddElement(Information.getInformation().getInfo(), Information.getInformation().getCost(), Information.getInformation().getAmount());
+        DBOperations.getDB().addElement(Information.getInformation().getInfo(), Information.getInformation().getCost(), Information.getInformation().getAmount());
         Information.getInformation().cleanAll();
-        Information.getInformation().setCount(DBOperations.Get().GetCount());
+        Information.getInformation().setCount(DBOperations.getDB().getCount());
         Intent intent = new Intent(AddNewActivity.this, MainActivity.class);
         startActivity(intent);
 
