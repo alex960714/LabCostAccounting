@@ -1,15 +1,15 @@
 package com.example.user.labcostaccounting;
 
-public class ObjectLV {
+public class Record {
 
     public String Information;
-    public boolean isAlign;
+    public boolean isCost;
     public int Summ;
 
 
-    public ObjectLV(String element, boolean active, int money ) {
+    public Record(String element, boolean active, int money ) {
         Information = element;
-        isAlign = active;
+        isCost = active;
         Summ = money;
     }
 
@@ -19,8 +19,8 @@ public class ObjectLV {
     public int getSumm() {
         return Summ;
     }
-    public boolean getAlign() {
-        return isAlign;
+    public boolean getCost() {
+        return isCost;
     }
 
 }

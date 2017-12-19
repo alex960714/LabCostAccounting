@@ -54,20 +54,20 @@ public class DBOperations extends SQLiteOpenHelper {
         _Database = db;
     }
 
-    public ArrayList<ObjectLV> GetElements() {
-        ArrayList<ObjectLV> result = new ArrayList<>();
+    public ArrayList<Record> GetElements() {
+        ArrayList<Record> result = new ArrayList<>();
         Cursor cursor = _Database.rawQuery(
                 "SELECT * FROM elements WHERE 1", new String[]{});
         cursor.moveToFirst();
         for (int i = 0; i < cursor.getCount(); i++) {
-            result.add(new ObjectLV(cursor.getString(0), cursor.getInt(1) != 0, cursor.getInt(2)));
+            result.add(new Record(cursor.getString(0), cursor.getInt(1) != 0, cursor.getInt(2)));
             cursor.moveToNext();
         }
         return result;
     }
 
     public void DeleteElement(int activeElement) {
-        ObjectLV deleteel = DBOperations.Get().GetElements().get(activeElement);
+        Record deleteel = DBOperations.Get().GetElements().get(activeElement);
         _Database.execSQL("DELETE FROM elements WHERE ELNAME=\"" + deleteel.getInformation()+"\";");
         complements--;
         _Activity.UpdateElements();

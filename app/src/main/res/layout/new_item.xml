@@ -5,7 +5,7 @@
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AddNewActivity">
+        tools:context="com.example.user.labcostaccounting.AddNewActivity">
 
     <TextView
             android:id="@+id/mainTextView"
@@ -65,7 +65,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:onClick="saveClick"
             android:layout_marginTop="53dp"
             android:layout_below="@+id/incomeRadioButton"
             android:layout_alignStart="@+id/incomeRadioButton" />
@@ -75,7 +74,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:onClick="cancelClick"
             android:layout_below="@+id/saveButton"
             android:layout_alignStart="@+id/saveButton"
             android:layout_marginTop="15dp" />
@@ -83,7 +81,6 @@
     <RadioGroup
             android:id="@+id/RGroup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-    />
+            android:layout_height="wrap_content" />
 
 </RelativeLayout>

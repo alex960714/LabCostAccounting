@@ -4,11 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import java.util.ArrayList;
 
@@ -18,11 +14,16 @@ public class MainActivity extends Activity {
     int countloads = 0;
     boolean flagactivity = false;
     private int _ActiveElement;
+    private Button addBtn;
+    private Button delBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        addClick();
+        delClick();
 
         DBOperations.Initialize(this);
         DrawList();
@@ -32,39 +33,56 @@ public class MainActivity extends Activity {
         DrawList();
     }
 
-    public void addClick(View view) {
-        Intent intent = new Intent(MainActivity.this, AddNewActivity.class);
-        startActivity(intent);
+    public void addClick() {
+        addBtn = (Button)findViewById(R.id.addButton);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddNewActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-    public void savebase(View view) {
-        Info.Get().setlist(loads);
+
+    public void delClick() {
+        delBtn = (Button)findViewById(R.id.delButton);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DBOperations.Get().DeleteElement(_ActiveElement);
+                _ActiveElement = 0;
+            }
+        });
+    }
+/*    public void savebase(View view) {
+        Information.getInformation().setList(loads);
     }
 
     public void loadbase(View view) {
-        loads= Info.Get().getlist();
+        loads= Information.getInformation().getList();
         UpdateElements();
-    }
+    }*/
 
 
     private void DrawList() {
         ListView LV = (ListView) findViewById(R.id.table);
 
-        ArrayList loads = Info.Get().getlist();
+        ArrayList loads = Information.getInformation().getList();
 
         ArrayList loadsbase = DBOperations.Get().GetElements();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, loads);
         LV.setAdapter(adapter);
 
 
-        for (int i = 0; i < Info.Get().getcount(); i++) {
-            ObjectLV add = (ObjectLV) loadsbase.get(i);
-            String addinf = add.getInformation();
-            int addsumm = add.getSumm();
-            boolean addrashod = add.getAlign();
-            if (addrashod) {
-                loads.add((String) ("Доход: " + addinf + "  " + addsumm ));
+        for (int i = 0; i < Information.getInformation().getCount(); i++) {
+            Record add = (Record) loadsbase.get(i);
+            String addInfo = add.getInformation();
+            int addSum = add.getSumm();
+            boolean addCost = add.getCost();
+            if (addCost) {
+                loads.add((String) ("Income: " + addInfo + "  " + addSum ));
             } else {
-                loads.add((String) ("Расход:  " + addinf + "  " + addsumm ));
+                loads.add((String) ("Cost:  " + addInfo + "  " + addSum ));
             }
             System.out.println("ii = " + i);
         }
@@ -85,15 +103,9 @@ public class MainActivity extends Activity {
                 _ActiveElement = pos;
                 return true;
             }
-
-
         });
     }
 
-    public void deleteclick(View view) {
-        DBOperations.Get().DeleteElement(_ActiveElement);
-        _ActiveElement = 0;
-    }
 
 
 }
