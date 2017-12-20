@@ -27,8 +27,7 @@ public class AddNewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newDBRecord.setName(getName());
-                newDBRecord.setAsset(getAssetLiability());
-                newDBRecord.setAmount(getAmount());
+                newDBRecord.setAmount(getStatus() ? getAmount() : -getAmount());
                 db.createCost(newDBRecord);
                 closePanel();
             }
@@ -42,7 +41,6 @@ public class AddNewActivity extends AppCompatActivity {
         });
 
         this.newDBRecord = new DBRecord();
-        this.newDBRecord.setVersion(1);
     }
 
     public void closePanel() {
@@ -55,10 +53,10 @@ public class AddNewActivity extends AppCompatActivity {
         return ((EditText) findViewById(R.id.nameEditText)).getText().toString();
     }
 
-    public boolean getAssetLiability() {
+    public boolean getStatus() {
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.costRadioGroup);
         int radioId = radioGroup.getCheckedRadioButtonId();
-        return "Asset".equals(((RadioButton) radioGroup.findViewById(radioId)).getText().toString());
+        return "Income".equals(((RadioButton)radioGroup.findViewById(radioId)).getText().toString());
     }
 
     public double getAmount() {

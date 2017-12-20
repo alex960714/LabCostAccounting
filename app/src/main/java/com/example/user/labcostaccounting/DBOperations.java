@@ -51,7 +51,7 @@ public class DBOperations {
         if (cursor.moveToFirst()) {
             do {
                 DBRecord cost = new DBRecord(cursor.getInt(0), cursor.getString(1),
-                        cursor.getInt(2) == 1, cursor.getDouble(3), cursor.getInt(4));
+                        cursor.getInt(2) == 1, cursor.getDouble(3));
                 result.add(cost);
             } while (cursor.moveToNext());
         }

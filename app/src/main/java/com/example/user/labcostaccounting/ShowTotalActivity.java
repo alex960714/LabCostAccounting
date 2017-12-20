@@ -13,7 +13,7 @@ public class ShowTotalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.total_layout);
-        TextView total = (TextView) findViewById(R.id.totalCountLabel);
+        TextView total = (TextView)findViewById(R.id.totalCountLabel);
         total.setText(String.valueOf(getTotal()));
     }
 

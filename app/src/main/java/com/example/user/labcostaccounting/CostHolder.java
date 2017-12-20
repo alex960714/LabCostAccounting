@@ -6,7 +6,7 @@ import android.widget.TextView;
 public class CostHolder {
     private CheckBox selection;
     private TextView name;
-    private TextView assetLiability;
+    private TextView status;
     private TextView amount;
 
     public CheckBox getSelection() {
@@ -25,12 +25,12 @@ public class CostHolder {
         this.name = name;
     }
 
-    public TextView getAssetLiability() {
-        return assetLiability;
+    public TextView getStatus() {
+        return status;
     }
 
-    public void setAssetLiability(TextView assetLiability) {
-        this.assetLiability = assetLiability;
+    public void setStatus(TextView status) {
+        this.status = status;
     }
 
     public TextView getAmount() {

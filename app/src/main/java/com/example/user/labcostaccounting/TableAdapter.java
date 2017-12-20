@@ -14,7 +14,6 @@ import java.util.List;
 public class TableAdapter extends BaseAdapter {
     private List<DBRecord> data = new ArrayList<>();
     private Activity owner;
-
     private List<Integer> selected = new ArrayList<>();
 
     public TableAdapter(List<DBRecord> data, Activity owner) {
@@ -38,14 +37,6 @@ public class TableAdapter extends BaseAdapter {
         return position;
     }
 
-    public List<Integer> getSelected() {
-        return selected;
-    }
-
-    public void clearSelected() {
-        selected.clear();
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         CostHolder holder;
@@ -54,10 +45,10 @@ public class TableAdapter extends BaseAdapter {
             LayoutInflater inflater = owner.getLayoutInflater();
             convertView = inflater.inflate(R.layout.row_table, null);
             holder = new CostHolder();
+            holder.setName((TextView) convertView.findViewById(R.id.nameTextView));
+            holder.setStatus((TextView) convertView.findViewById(R.id.statusTextView));
+            holder.setAmount((TextView) convertView.findViewById(R.id.amountTextView));
             holder.setSelection((CheckBox) convertView.findViewById(R.id.rowCheckBox));
-            holder.setName((TextView) convertView.findViewById(R.id.nameValueTextView));
-            holder.setAssetLiability((TextView) convertView.findViewById(R.id.statusTextView));
-            holder.setAmount((TextView) convertView.findViewById(R.id.amountValueTextView));
             convertView.setTag(holder);
         } else {
             holder = (CostHolder) convertView.getTag();
@@ -67,10 +58,18 @@ public class TableAdapter extends BaseAdapter {
         holder.getSelection().setTag(item.getId());
         setSelectionListener(holder.getSelection());
         holder.getName().setText(item.getName());
-        holder.getAssetLiability().setText(item.isAsset() ? "Income" : "Cost");
-        holder.getAmount().setText(String.valueOf(item.getAmount()));
+        holder.getStatus().setText(item.getAmount() > 0 ? "Income" : "Cost");
+        holder.getAmount().setText(String.valueOf(Math.abs(item.getAmount())));
 
         return convertView;
+    }
+
+    public List<Integer> getSelected() {
+        return selected;
+    }
+
+    public void clearSelected() {
+        selected.clear();
     }
 
     private void setSelectionListener(final CheckBox selection) {

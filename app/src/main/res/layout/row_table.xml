@@ -5,18 +5,8 @@
               android:orientation="horizontal"
               android:background="#dfdfdf">
 
-
-    <CheckBox
-            android:id="@+id/rowCheckBox"
-            android:layout_width="0dp"
-            android:layout_weight="0.1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/cell"
-            android:padding="8dp"
-            android:text="" />
-
     <TextView
-            android:id="@+id/nameValueTextView"
+            android:id="@+id/nameTextView"
             android:layout_width="0dp"
             android:layout_weight="0.4"
             android:layout_height="wrap_content"
@@ -38,7 +28,7 @@
             android:text="" />
 
     <TextView
-            android:id="@+id/amountValueTextView"
+            android:id="@+id/amountTextView"
             android:layout_width="0dp"
             android:layout_weight="0.2"
             android:layout_height="wrap_content"
@@ -47,4 +37,13 @@
             android:maxLines="1"
             android:textColor="@android:color/background_dark"
             android:text="0" />
+
+    <CheckBox
+            android:id="@+id/rowCheckBox"
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/cell"
+            android:padding="8dp"
+            android:text="" />
 </LinearLayout>
