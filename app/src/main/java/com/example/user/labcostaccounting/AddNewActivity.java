@@ -7,17 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-
-import java.util.Date;
+import android.widget.RadioGroup;
 
 public class AddNewActivity extends AppCompatActivity {
-    private String dt = null;
-    private Date cal = null;
-
-    private RadioButton radioBD;
-    private RadioButton radioBR;
-    private EditText SummET;
-    private EditText InfET;
+    private DBOperations db = DBOperations.getInstance();
+    private DBRecord newDBRecord;
     private Button saveBtn;
     private Button cancelBtn;
 
@@ -26,45 +20,48 @@ public class AddNewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_item);
 
-        radioBD = (RadioButton)findViewById(R.id.costRadioButton);
-        radioBR = (RadioButton)findViewById(R.id.incomeRadioButton);
-        SummET = (EditText)findViewById(R.id.amountEditText);
-        InfET = (EditText)findViewById(R.id.nameEditText);
         saveBtn = (Button)findViewById(R.id.saveButton);
         cancelBtn = (Button)findViewById(R.id.cancelButton);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveClick();
+                newDBRecord.setName(getName());
+                newDBRecord.setAsset(getAssetLiability());
+                newDBRecord.setAmount(getAmount());
+                db.createCost(newDBRecord);
+                closePanel();
             }
         });
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelClick();
+                closePanel();
             }
         });
+
+        this.newDBRecord = new DBRecord();
+        this.newDBRecord.setVersion(1);
     }
 
-    public void saveClick() {
-        Information.getInformation().setAmount(Integer.parseInt(SummET.getText().toString()));
-        Information.getInformation().setInfo(InfET.getText().toString());
-        if (radioBR.isChecked()) {
-            Information.getInformation().setIsCost();
-        } else Information.getInformation().setIsIncome();
-        DBOperations.getDB().addElement(Information.getInformation().getInfo(), Information.getInformation().getCost(), Information.getInformation().getAmount());
-        Information.getInformation().cleanAll();
-        Information.getInformation().setCount(DBOperations.getDB().getCount());
-        Intent intent = new Intent(AddNewActivity.this, MainActivity.class);
-        startActivity(intent);
-
+    public void closePanel() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
-    public void cancelClick() {
-        Intent intent = new Intent(AddNewActivity.this, MainActivity.class);
-        Information.getInformation().cleanAll();
-        startActivity(intent);
+    public String getName() {
+        return ((EditText) findViewById(R.id.nameEditText)).getText().toString();
+    }
+
+    public boolean getAssetLiability() {
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.costRadioGroup);
+        int radioId = radioGroup.getCheckedRadioButtonId();
+        return "Asset".equals(((RadioButton) radioGroup.findViewById(radioId)).getText().toString());
+    }
+
+    public double getAmount() {
+        return Double.valueOf(((EditText) findViewById(R.id.amountEditText)).getText().toString());
     }
 }

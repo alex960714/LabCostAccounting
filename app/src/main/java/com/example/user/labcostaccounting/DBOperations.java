@@ -1,78 +1,62 @@
 package com.example.user.labcostaccounting;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
+public class DBOperations {
+    private static DBOperations singleton;
+    private SQLiteDatabase db;
 
-public class DBOperations extends SQLiteOpenHelper {
-    private static DBOperations _Instance = null;
-
-    private MainActivity _Activity;
-    private SQLiteDatabase _Database;
-    private int size = 0;
-
-    public static DBOperations getDB() {
-        return _Instance;
+    static {
+        singleton = new DBOperations();
     }
 
-    public static void Initialize(Context context) {
-        _Instance = new DBOperations(context);
+    public static DBOperations getInstance() {
+        return singleton;
     }
 
-    private DBOperations(Context context) {
-        super(context, "elementsDB", null, 2);
-        _Activity = (MainActivity) context;
-        _Database = getWritableDatabase();
+    public void init(SQLiteDatabase db) {
+        this.db = db;
+        //this.db.execSQL("DROP TABLE IF EXISTS costs;");
+        this.db.execSQL("CREATE TABLE IF NOT EXISTS costs(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name CHAR(100) NOT NULL," +
+                "is_asset INTEGER NOT NULL," +
+                "amount REAL NOT NULL," +
+                "version INTEGER);");
     }
 
-    public void addElement(String name, boolean isActive, int value) {
-        _Database.execSQL("INSERT INTO elements VALUES (" +
-                "\"" + name + "\"," + (isActive ? "1" : "0") + "," + value +  ");");
-        size++;
+    public void createCost(DBRecord cost) {
+        createCost(cost.getName(), cost.isAsset(), cost.getAmount());
     }
 
-    public int getCount() {return size;}
-
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        _Database = sqLiteDatabase;
-        _Database.execSQL("CREATE TABLE elements (ELNAME TEXT, ELTYPE INT, ELVALUE INT);");
+    public void createCost(String name, boolean isAsset, double amount) {
+        db.execSQL("INSERT INTO costs ('name', 'is_asset', 'amount', 'version') VALUES ('" +
+                name + "', " +
+                (isAsset ? 1 : 0) + ", " +
+                String.valueOf(amount) + ", null);");
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        _Activity.UpdateElements();
+    public void removeCost(int id) {
+        db.execSQL("DELETE FROM costs WHERE id = " + String.valueOf(id) + ";");
     }
 
-    @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
-        _Database = db;
-    }
+    public List<DBRecord> getData() {
+        List<DBRecord> result = new ArrayList<>();
 
-    public ArrayList<DBRecord> getElements() {
-        ArrayList<DBRecord> result = new ArrayList<>();
-        Cursor cursor = _Database.rawQuery(
-                "SELECT * FROM elements WHERE 1", new String[]{});
-        cursor.moveToFirst();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            result.add(new DBRecord(cursor.getString(0), cursor.getInt(1) != 0, cursor.getInt(2)));
-            cursor.moveToNext();
+        Cursor cursor = db.rawQuery("SELECT * FROM costs;", null);
+        if (cursor.moveToFirst()) {
+            do {
+                DBRecord cost = new DBRecord(cursor.getInt(0), cursor.getString(1),
+                        cursor.getInt(2) == 1, cursor.getDouble(3), cursor.getInt(4));
+                result.add(cost);
+            } while (cursor.moveToNext());
         }
+
+        cursor.close();
         return result;
     }
-
-    public void deleteElement(int activeElement) {
-        if(size > 0) {
-            DBRecord deleteEl = DBOperations.getDB().getElements().get(activeElement);
-            _Database.execSQL("DELETE FROM elements WHERE ELNAME=\"" + deleteEl.getInformation() + "\";");
-            size--;
-            _Activity.UpdateElements();
-        }
-    }
-
 }

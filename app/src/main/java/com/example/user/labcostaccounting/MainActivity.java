@@ -1,90 +1,83 @@
 package com.example.user.labcostaccounting;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ListView;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends Activity {
-
-    private ArrayList loads = new ArrayList();
-    /*int countloads = 0;
-    boolean flagactivity = false;*/
-    private int _ActiveElement;
+public class MainActivity extends AppCompatActivity {
+    private DBOperations db;
+    private List<DBRecord> data;
+    private TableAdapter adapter;
     private Button addBtn;
-    private Button delBtn;
+    private Button deleteBtn;
+    private Button totalBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        addClick();
-        delClick();
-
-        DBOperations.Initialize(this);
-        UpdateElements();
-    }
-
-    public void addClick() {
         addBtn = (Button)findViewById(R.id.addButton);
+        deleteBtn = (Button)findViewById(R.id.delButton);
+        totalBtn = (Button)findViewById(R.id.totalButton);
+
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddNewActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(view.getContext(), AddNewActivity.class);
+                startActivityForResult(intent, 0);
             }
         });
-    }
 
-    public void delClick() {
-        delBtn = (Button)findViewById(R.id.delButton);
-        delBtn.setOnClickListener(new View.OnClickListener() {
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DBOperations.getDB().deleteElement(_ActiveElement);
-                _ActiveElement = 0;
+                for (Integer id : adapter.getSelected()) {
+                    db.removeCost(id);
+                }
+                adapter.clearSelected();
+                updateData();
             }
         });
+
+        totalBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ShowTotalActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        this.db = DBOperations.getInstance();
+        this.db.init(openOrCreateDatabase("cost_accounting", MODE_PRIVATE, null));
+
+        initTable();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateData();
+    }
 
-    public void UpdateElements() {
+    private void initTable() {
+        data = db.getData();
+
         ListView table = (ListView) findViewById(R.id.table);
-
-        loads = Information.getInformation().getList();
-
-        ArrayList loadsbase = DBOperations.getDB().getElements();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, loads);
+        adapter = new TableAdapter(data, this);
         table.setAdapter(adapter);
+    }
 
-
-        for (int i = 0; i < DBOperations.getDB().getCount(); i++) {
-            DBRecord add = (DBRecord) loadsbase.get(i);
-            String addInfo = add.getInformation();
-            int addSum = add.getSum();
-            boolean addCost = add.getCost();
-            if (addCost) {
-                loads.add((String) ("Income: " + addInfo + "  " + addSum ));
-            } else {
-                loads.add((String) ("Cost:  " + addInfo + "  " + addSum ));
-            }
-            System.out.println("ii = " + i);
+    public void updateData() {
+        if (data != null) {
+            data.clear();
+            data.addAll(db.getData());
+            adapter.notifyDataSetChanged();
         }
-        Information.getInformation().setList(loads);
-
-
-        table.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
-                                    long id) {
-                /*Toast.makeText(getApplicationContext(), ((TextView) itemClicked).getText(),
-                        Toast.LENGTH_SHORT).show();*/
-                _ActiveElement = position;
-            }
-        });
     }
 }

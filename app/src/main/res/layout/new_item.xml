@@ -2,7 +2,6 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.user.labcostaccounting.AddNewActivity">
@@ -42,23 +41,30 @@
             android:layout_below="@+id/nameEditText"
             android:layout_alignStart="@+id/nameEditText" />
 
-    <RadioButton
-            android:id="@+id/costRadioButton"
-            android:text="Costs"
+    <RadioGroup
+            android:id="@+id/costRadioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
             android:layout_below="@+id/amountEditText"
-            android:layout_alignStart="@+id/amountEditText"/>
+            android:layout_alignStart="@+id/amountEditText">
 
-    <RadioButton
-            android:id="@+id/incomeRadioButton"
-            android:text="Income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:layout_below="@+id/costRadioButton"
-            android:layout_alignStart="@+id/costRadioButton" />
+        <RadioButton
+                android:id="@+id/costRadioButton"
+                android:text="Costs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"/>
+
+        <RadioButton
+                android:id="@+id/incomeRadioButton"
+                android:text="Income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_below="@+id/costRadioButton"
+                android:layout_alignStart="@+id/costRadioButton" />
+
+    </RadioGroup>
 
     <Button
             android:id="@+id/saveButton"
@@ -66,8 +72,8 @@
             android:layout_height="wrap_content"
             android:text="Save"
             android:layout_marginTop="53dp"
-            android:layout_below="@+id/incomeRadioButton"
-            android:layout_alignStart="@+id/incomeRadioButton" />
+            android:layout_below="@+id/costRadioGroup"
+            android:layout_alignStart="@+id/costRadioGroup" />
 
     <Button
             android:id="@+id/cancelButton"
@@ -78,9 +84,5 @@
             android:layout_alignStart="@+id/saveButton"
             android:layout_marginTop="15dp" />
 
-    <RadioGroup
-            android:id="@+id/RGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
 </RelativeLayout>

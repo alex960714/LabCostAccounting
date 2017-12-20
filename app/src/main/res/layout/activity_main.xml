@@ -22,7 +22,7 @@
         <ListView
                 android:id="@+id/table"
                 android:layout_width="match_parent"
-                android:layout_height="398dp"/>
+                android:layout_height="348dp"/>
 
         <Button
                 android:id="@+id/addButton"
@@ -36,6 +36,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+        <Button
+                android:id="@+id/totalButton"
+                android:text="Total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
     </LinearLayout>
